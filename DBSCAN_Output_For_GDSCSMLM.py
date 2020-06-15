@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import os
-import sklearn
 from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 
@@ -14,7 +13,7 @@ Filename='FitResults.txt'   # This is the name of the SR file containing the loc
 
 # Paths to analyse below:
 
-pathList.append(r"/Users/Mathew/Dropbox (Cambridge University)/Ed Code/Output for fiji/")
+pathList.append(r"")
 
 
 for path in pathList:
