@@ -13,7 +13,7 @@ Filename='FitResults.txt'   # This is the name of the SR file containing the loc
 
 # Paths to analyse below:
 
-pathList.append(r"/Users/Mathew/Dropbox (Cambridge University)/Ed Code/DBSCAN _outputs_GDSCSMLM/Owen's files/Test/")
+pathList.append(r"")
 
 
 for path in pathList:
