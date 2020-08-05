@@ -3,6 +3,8 @@ import pandas as pd
 import os
 from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
+import seaborn as sns
+from seaborn import scatterplot
 
 pathList = []
 
@@ -13,7 +15,7 @@ Filename='FitResults.txt'   # This is the name of the SR file containing the loc
 
 # Paths to analyse below:
 
-pathList.append(r"")
+pathList.append(r"/Volumes/BirdBox2/PSD/120nM_manyframe_2020-08-04_14-45-09/1/")
 
 
 for path in pathList:
@@ -35,7 +37,7 @@ for path in pathList:
 
     # This is to delete the rows which are not part of a cluster:
     fit_truncated=fit.copy()
-    
+    fitall=fit.copy()
     toDelete = fit[ fit['Cluster'] == -1 ].index
     
     
@@ -81,14 +83,33 @@ for path in pathList:
     
     Out_nc.close() # Close the file.
 
-
+    
+    n_groups = n_clusters_+1 #total number of colours required is number of clusters +1 for the points not in clusters
+        
+        #choose colours to plot with. Black is first to represent points not in clusters. May need to add more if the number of clusters >25
+    mycolours = ["#000000",'#1f78b4','#33a02c', '#fb9a99','#cab2d6','#6a3d9a',"#95a5a6","#34495e", '#e78ac3','#a6d854','#ffd92f','#e5c494','#b3b3b3','#a6cee3','#e31a1c','#fdbf6f','#ff7f00','#ffff99','#b15928', '#b2df8a',"#9b59b6", "#3498db", "#2ecc71",'#fc8d62','#8da0cb','#66c2a5']
+    
+    sns.scatterplot(x='X', y='Y', 
+                data = fitall,
+                marker = ".", 
+                s = 2, #marker size
+                edgecolor= None, 
+                hue= 'Cluster', #colour points depending on cluster number
+                palette = sns.color_palette(mycolours, n_groups), #set colour palette to mycolours with the # of colours = # groups being plotted
+                legend = False);
+    plt.savefig(path+'/'+'Clusters.pdf')
+    plt.show() 
+    
+    
     # Histogram of precisions
     precision=fit_truncated['Precision (nm)']
     plt.hist(precision, bins = 40,range=[0,40], rwidth=0.9,color='#607c8e')
     plt.xlabel('Precision (nm)')
     plt.ylabel('Number of Localisations')
     plt.title('Histogram of Precision')
+    plt.savefig(path+'/'+'Precision.pdf')
     plt.show()
+    
     
     
     # Calculate how many localisations per cluster
@@ -105,5 +126,5 @@ for path in pathList:
     plt.xlabel('Localisations per cluster')
     plt.ylabel('Number of clusters')
     plt.title('Histogram of cluster size')
+    plt.savefig(path+'/'+'Cluster_size.pdf')
     plt.show()
-    
